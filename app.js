@@ -1,4 +1,4 @@
-// create battleship class for my battleships
+// create battleship class for all the battleships
 class Battleship {
     constructor(name, hull, firepower, accuracy) {
         this.name = name;
@@ -12,7 +12,7 @@ class Battleship {
 const myBattleship = new Battleship('USSStrongArm', 20, 5, 0.7);
 // console.log(myBattleship);
 
-//create battleship class for alien ships
+//create battleship class for alien ships--error if only with name argument, properties not defined.
 // class Alienship {
 //    constructor(name) {
 //         this.name = name;
@@ -22,8 +22,7 @@ const myBattleship = new Battleship('USSStrongArm', 20, 5, 0.7);
 //     }
 
 // }
-// const alienShip1 = new Alienship('one')
-// console.log(alienShip1);
+
 
 //create alien ship array
 let teamAlien = [];
@@ -40,12 +39,7 @@ function array(n){
 array(6);
 console.log(teamAlien);
 
-// // console.log(teamAlien[0]);
-// // console.log(teamAlien);
-// // // teamAlien.shift();
-// // // console.log(teamAlien);
-
-//create alert massages function for displaying massage during the round of game
+//create alert massages function for displaying massage and health points during the round of game
 function alertMsg (message) {
     document.getElementById("alertMsg").innerHTML = message;
 };
@@ -138,19 +132,12 @@ function checkUserResponse() {
         
 
 };
-//     if (input.toUpperCase()==='Y') {
-//         gameRound(teamAlien[0]);
-//     } else if (input.toUpperCase()==='N') {
-//         gameOver();
-//     } else {
-//         gameOver();
-//     }
-// }
+
 
 //create battle function
 function gameRound(alienShip) {
-    // console.log(teamAlien[0]);
-    // console.log('pressed button');
+    // console.log(teamAlien[0]); --debug
+    // console.log('pressed button'); ---debug
     while (myBattleship.hull > 0 && teamAlien.length >= 1 ) {
         attackAlien(alienShip);
         console.log(teamAlien);
@@ -193,4 +180,3 @@ function gameStart() {
 };
 
 gameStart();
-console.log(document.getElementById("promptChoice").textContent);
