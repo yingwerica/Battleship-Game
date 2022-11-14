@@ -1,6 +1,3 @@
-//init variables
-//let continuePlay = prompt('Ready to attack?')
-
 // create battleship class for my battleships
 class Battleship {
     constructor(name, hull, firepower, accuracy) {
@@ -33,7 +30,7 @@ let teamAlien = [];
 
 function array(n){
   for (let i = 0; i < n; i++) {
-    teamAlien[i] = new Battleship('Alienship' + i, 
+    teamAlien[i] = new Battleship('Alienship' + (i+1), 
     Math.floor(Math.random() * 4) + 3,
     Math.floor(Math.random() * 3) + 2,
     (Math.floor(Math.random() * 3) + 6) / 10
@@ -48,94 +45,112 @@ console.log(teamAlien);
 // // // teamAlien.shift();
 // // // console.log(teamAlien);
 
-// // /////////////another way to create alienShip array, but not working with the game function, can not pass an object as param
-// // let teamAlien=[];
-// // for(let i=0;i<6;i++)
-// // {
-// // let enemy={};
-// // enemy.name = "alienShip"+i;
-// // enemy.hull = Math.floor(Math.random() * 4) + 3;
-// // enemy.firepower = Math.floor(Math.random() * 3) + 2;
-// // enemy.accuracy = (Math.floor(Math.random() * 3) + 6) / 10;
-// // teamAlien.push(enemy);
-// // enemy = {};
-// // }
-// // console.log(teamAlien);
-// ///////////////////////////////////////////////////////////
+//create alert massages function for displaying massage during the round of game
+function alertMsg (message) {
+    document.getElementById("alertMsg").innerHTML = message;
+};
+
+function reportHealth (message) {
+    document.getElementById("reportHealth").innerHTML = message;
+};
 
 // //create attackAlien function for battleship
 function attackAlien(alienShip) {
     if (Math.floor(Math.random()) <= myBattleship.accuracy) {   // full hit
-        console.log( 'Geart!You hit the target!'); 
+        message = `${message} 
+        Geart!You hit the target!`;
+        alertMsg(message); 
         alienShip.hull-= myBattleship.firepower;
-        console.log( `${alienShip.name} hull: ${alienShip.hull}`);
+        reportHealth( `${alienShip.name} hull: ${alienShip.hull}`);
         
     } else {                                                     // you missed
-        console.log( 'Bad luck, you missed....');
-        console.log( `${alienShip.name} hull: ${alienShip.hull}`)
+        message = `${message} 
+        Bad luck, you missed....`;
+        alertMsg(message);
+        reportHealth( `${alienShip.name} hull: ${alienShip.hull}`);
         
-    }   
+    };   
 };
 
 //create alien attack back function
 function alienAttack(alienShip) {
     if (Math.floor(Math.random()) <= alienShip.accuracy) {   // full hit
-        console.log('oh no!!You got hit by an alien ship!');
+        message = `${message} 
+        oh no!!You got hit by an alien ship!`;
+        alertMsg(message);
         myBattleship.hull-=alienShip.firepower;
-        console.log( `${myBattleship.name} hull: ${myBattleship.hull}`)
+        reportHealth( `${myBattleship.name} hull: ${myBattleship.hull}`);
         
     } else {
-        console.log('Yeah!The alien ship missed!');
-        console.log( `${myBattleship.name} hull: ${myBattleship.hull}`) 
+        message = `${message} 
+        Yeah!The alien ship missed!`;
+        alertMsg(message);
+        reportHealth( `${myBattleship.name} hull: ${myBattleship.hull}`); 
                                                // alien missed
-    }
+    };
 };
 
 //delete the destroyed alienship
 function alienDestroyed() {
         teamAlien.shift();
         if (teamAlien.length == 0) {
-            console.log ("You are the hero!! You win!!")
+            message = `${message} 
+            You are the hero!! You win!!`;
+            alertMsg(message);
+            document.getElementById("promptChoice").innerHTML = 'You win the game!! Refresh the page to play again.';
+            document.getElementById("attack").disabled = true;
+            document.getElementById("retreat").disabled = true;
         } else {
-        console.log(`Hooray!! You destroyed an alien ship! Another ${teamAlien[0].name} is approaching!`);
-        checkUserResponse();  
+            message = `${message} 
+            Hooray!! You destroyed an alien ship! Another ${teamAlien[0].name} is approaching!`; 
+            alertMsg(message);
+
+            checkUserResponse();  
         };
-}
+};
 
 //create gameOver function
 function gameOver() {
-    // document.getElementById("promptChoice").innerHTML = '';
-    // document.getElementById("retreat").remove();
-    // document.getElementById("attack").remove();
-    console.log( 'Game over. Alien invasion! Refresh the page to play again.')
-}
-
-// let alienShip1 = teamAlien[0];
-// console.log(alienShip1);
-
-// //create button click event
-// document.getElementById("retreat").onclick = function(){gameOver()};
-// document.getElementById("attack").onclick = function(){gameRound(teamAlien[0])};
+    message = `${message} 
+    Game over. Alien invasion! Refresh the page to play again.`;
+    alertMsg(message);
+    document.getElementById("promptChoice").innerHTML = 'You failed! Refresh the page to start again. Be brave!!';
+};
 
 //create user input function
 function checkUserResponse() {
-    let input = prompt('Hooray!An Alien ship is destroyed! \n type "Y" to continue to attack, or type "N" to end this battle.');
-    if (input.toUpperCase()==='Y') {
-        gameRound(teamAlien[0]);
-    } else if (input.toUpperCase()==='N') {
+    document.getElementById("attack").disabled = false;
+    document.getElementById("retreat").disabled = false;
+    document.getElementById("promptChoice").innerHTML ='Hooray!An Alien ship is destroyed! Press Attack to continue to attack, or press Retreat to end this battle.';
+    // console.log(document.getElementById("promptChoice").textContent);
+    document.getElementById('attack').onclick = function(){
+         gameRound(teamAlien[0]);
+         };
+     /////error---addEventListener will accumulate actions////
+         // document.getElementById('attack').addEventListener('click', function(){
+        //     gameRound(teamAlien[0]);
+        // });
+    document.getElementById("retreat").onclick = function(){
         gameOver();
-    } else {
-        gameOver();
-    }
-}
+        document.getElementById("attack").disabled = true;
+        document.getElementById("retreat").disabled = true;
+    };
+        
+
+};
+//     if (input.toUpperCase()==='Y') {
+//         gameRound(teamAlien[0]);
+//     } else if (input.toUpperCase()==='N') {
+//         gameOver();
+//     } else {
+//         gameOver();
+//     }
+// }
 
 //create battle function
 function gameRound(alienShip) {
-    // document.getElementById("promptChoice").innerHTML = '';
-    console.log(teamAlien[0]);
-    console.log(alienShip);
-    // document.getElementById("attack").disabled = true;
-    // document.getElementById("retreat").disabled = true;
+    // console.log(teamAlien[0]);
+    // console.log('pressed button');
     while (myBattleship.hull > 0 && teamAlien.length >= 1 ) {
         attackAlien(alienShip);
         console.log(teamAlien);
@@ -143,29 +158,39 @@ function gameRound(alienShip) {
             alienAttack(alienShip);
         } else {
             alienDestroyed();
-            // document.getElementById("attack").disabled = false;
-            // document.getElementById("retreat").disabled = false;
-            // console.log('Hooray!An Alien ship is destroyed! \n type "Y" to continue to attack, or type "N" to end this battle.' );   
-            return;
-         } 
+            break;
+         }; 
     };
     
     if (myBattleship.hull <= 0){
-        console.log( 'You are down! You are down!')
+        message = `${message} 
+        You are down! You are down! Game over. See you next time.`;
+        alertMsg(message);
         gameOver();
-    }
-}
+    };
+};
 
-//create game start function
+//create game start function for console log version
+// function gameStart() {
+//     let input = prompt('Welcome to the Space ship battle! Type "Y" to start the game, or type "N" if you want to play another day.');
+//     if (input.toUpperCase()==='Y') {
+//         gameRound(teamAlien[0]);
+//     } else if (input.toUpperCase()==='N') {
+//         gameOver();
+//     } else {
+//         gameOver();
+//     }
+// }
+let message = '';
 function gameStart() {
-    let input = prompt('Welcome to the Space ship battle! Type "Y" to start the game, or type "N" if you want to play another day.');
-    if (input.toUpperCase()==='Y') {
+    document.getElementById("promptChoice").innerHTML = 'Welcome to the Space ship battle! Press "Start" button to start the game.';
+    document.getElementById('start').addEventListener('click', function(){
         gameRound(teamAlien[0]);
-    } else if (input.toUpperCase()==='N') {
-        gameOver();
-    } else {
-        gameOver();
-    }
-}
+        message = `The game is on! Attack!!`
+        alertMsg(message);
+        document.getElementById('start').remove();
+    });
+};
 
 gameStart();
+console.log(document.getElementById("promptChoice").textContent);

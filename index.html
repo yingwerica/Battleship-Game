@@ -4,15 +4,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Battleship Game</title>
 </head>
 <body>
-    <h1>The Battle is On!!!</h1>
-    <h2>Press the button to start the game</h2>
-    <h2 id="promptChoice"></h2>
-    <button id="attack">Attack!</button>
-    <button id="retreat">Retreat!</button>
-    <h3 id="alertMsg"></h3>
+    
+    <h2 class="prompt multicolortext" id="promptChoice"></h2>
+    <div class="buttons">
+        <button  type="button" class="glow-on-hover" id="start" style="margin-right: 20px;">Start Game</button> 
+        <button  type="button" class="glow-on-hover" id="attack" style="margin-right: 20px;">Attack!</button>
+        <button  type="button" class="glow-on-hover" id="retreat">Retreat!</button>
+    </div>
+    <div class="ships">
+        <img  src="./images/mybattleship.JPG" alt="My Battleship" style="width: 400px; height: 400px;border-radius: 50%;">
+        <img  src="./images/alienship.JPG" alt="Alienship" style="width: 400px; height: 400px; border-radius: 50%;">
+    </div>
+    <h2 class="alert" id="alertMsg"></h2>
+    <h3 class="report" id="reportHealth"></h3>
     <script src="app.js"></script>
 </body>
 </html>
